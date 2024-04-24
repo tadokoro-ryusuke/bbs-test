@@ -19,6 +19,7 @@ import {
 
 import { Loading } from "@/components/loading/Loading";
 import auth from "@/lib/firebase";
+import { useSignedInMutation } from "@/types/graphql.gen";
 import { authExchange } from "@urql/exchange-auth";
 
 const UserContext = createContext<{
@@ -80,7 +81,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
                 return error.extensions?.code === "UNAUTHENTICATED";
               })
             ) {
-              router.push("/login");
+              const redirectPath = router.pathname;
+              router.push("/login?redirect=" + redirectPath);
             }
 
             return false;

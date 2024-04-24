@@ -7,6 +7,10 @@ import {Pagination} from '@/types/pagination';
 export class PostService {
   constructor(private readonly postRepository: PostRepository) {}
 
+  async deletePostsByThreadId(threadId: number) {
+    return this.postRepository.delete(threadId);
+  }
+
   async findByThreadId(threadId: number, {page, limit}: Pagination) {
     return this.postRepository.findByThreadId(threadId, {
       take: limit,

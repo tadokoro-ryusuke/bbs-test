@@ -3,15 +3,16 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { signIn } from "@/lib/auth";
+import { logout } from "@/lib/auth";
+import { useCreateThreadMutation } from "@/types/graphql.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = {
-  content: string;
+  title: string;
 };
 
 const schema = z.object({
-  email: z.string(),
+  title: z.string().min(1, "スレッド名は必須です"),
 });
 
 export const useThreadCreate = () => {
@@ -23,11 +24,17 @@ export const useThreadCreate = () => {
     null
   );
   const router = useRouter();
-  const { redirect } = router.query;
+  const [, executeMutation] = useCreateThreadMutation();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       setIsLoading(true);
+      await executeMutation({
+        input: {
+          title: data.title,
+        },
+      });
+      router.push("/threads");
     } catch {
       setCreateErrorMessage("スレッドの作成に失敗しました");
     } finally {

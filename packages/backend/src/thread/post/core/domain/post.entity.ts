@@ -10,8 +10,8 @@ export class Post {
   @Field()
   content: string;
 
-  @Field(() => ID)
-  userId: number;
+  @Field()
+  userId: string;
 
   @Field(() => Thread)
   thread: Thread;

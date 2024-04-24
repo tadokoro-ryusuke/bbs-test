@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { signIn } from "@/lib/auth";
+import { useAuth } from "@/providers/UserProvider";
+import { useSignedInMutation } from "@/types/graphql.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = {
@@ -28,6 +30,8 @@ export const useLogin = () => {
   );
   const router = useRouter();
   const { redirect } = router.query;
+  const { user } = useAuth();
+  const [, executeMutation] = useSignedInMutation();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -42,6 +46,16 @@ export const useLogin = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user?.uid) {
+      executeMutation({
+        input: {
+          email: user.email ?? "logged in",
+        },
+      });
+    }
+  }, [user]);
 
   return {
     formMethods,

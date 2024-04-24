@@ -9,6 +9,14 @@ import {IPostRepository} from '@/thread/post/core/domain/post.repository.interfa
 export class PostRepository implements IPostRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async delete(threadId: number): Promise<void> {
+    await this.prismaService.post.deleteMany({
+      where: {
+        threadId,
+      },
+    });
+  }
+
   async findByThreadId(threadId: number, options: FindOptions): Promise<Post[]> {
     const posts = await this.prismaService.post.findMany({
       where: {

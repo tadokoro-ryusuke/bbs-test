@@ -1,4 +1,4 @@
-import {Field, ID, Int, ObjectType} from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 
 @ObjectType()
 export class Thread {
@@ -8,8 +8,8 @@ export class Thread {
   @Field()
   title: string;
 
-  @Field(() => Int)
-  userId: number;
+  @Field()
+  userId: string;
 
   @Field()
   createdAt: Date;

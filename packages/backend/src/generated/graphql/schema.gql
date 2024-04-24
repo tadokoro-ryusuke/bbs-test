@@ -2,15 +2,24 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateThreadInput {
+  title: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
+input DeleteThreadInput {
+  threadId: ID!
+}
+
 type FindThreadResponse {
   createdAt: DateTime!
   id: ID!
   title: String!
+  userId: String!
 }
 
 input FindThreadWithPostsInput {
@@ -39,6 +48,12 @@ type FindThreadsWithCountResponse {
   threadsCount: Float
 }
 
+type Mutation {
+  createThread(input: CreateThreadInput!): Boolean!
+  deleteThread(input: DeleteThreadInput!): Boolean!
+  signedIn(input: SignedInInput!): Boolean!
+}
+
 type Post {
   content: String!
   createdAt: DateTime!
@@ -50,10 +65,8 @@ type Post {
 type Query {
   findThreadWithPosts(input: FindThreadWithPostsInput!): FindThreadWithPostsResponse!
   threads(input: FindThreadsInput!): FindThreadsWithCountResponse!
-  user: [User!]!
 }
 
-type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input SignedInInput {
+  email: String!
 }

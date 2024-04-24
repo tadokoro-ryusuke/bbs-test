@@ -55,4 +55,18 @@ export class ThreadUseCaseService {
       postsCount,
     });
   }
+
+  async createThread({title, userId}: {title: string; userId: string}) {
+    return this.threadDomainService.create({title, userId});
+  }
+
+  async deleteThread({id, userId}: {id: number; userId: string}) {
+    const thread = await this.threadDomainService.findOneByIdAndUserId(id, userId);
+
+    await this.postService.deletePostsByThreadId(thread.id);
+
+    await this.threadDomainService.delete({id: thread.id, userId});
+
+    return true;
+  }
 }

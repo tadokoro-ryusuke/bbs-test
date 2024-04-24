@@ -42,6 +42,11 @@ export class FindThreadResponse {
   @IsNotEmpty()
   @Field()
   createdAt: Date;
+
+  @IsString()
+  @IsNotEmpty()
+  @Field()
+  userId: string;
 }
 
 @ObjectType()

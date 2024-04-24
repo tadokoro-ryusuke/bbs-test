@@ -7,12 +7,14 @@ const prisma = new PrismaClient();
 async function main() {
   const user1 = await prisma.user.create({
     data: {
+      id: 'user1',
       username: 'user1',
     },
   });
 
   const user2 = await prisma.user.create({
     data: {
+      id: 'user2',
       username: 'user2',
     },
   });

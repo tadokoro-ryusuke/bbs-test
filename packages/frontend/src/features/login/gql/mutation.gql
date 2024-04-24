@@ -1,0 +1,3 @@
+mutation SignedIn($input: SignedInInput!) {
+  signedIn(input: $input)
+}

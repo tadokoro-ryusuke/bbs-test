@@ -1,6 +1,6 @@
-import { register } from "module";
-import { memo } from "react";
-import { SubmitHandler, useFormContext } from "react-hook-form";
+import { register } from 'module';
+import { memo } from 'react';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 
 type Props = {
   onSubmit: () => void;
@@ -24,11 +24,13 @@ export const ThreadCreateForm = memo<Props>(
                 {createErrorMessage && <p>{createErrorMessage}</p>}
                 <form onSubmit={onSubmit} className="mt-12">
                   <div className="mb-3 px-8">
-                    <textarea
-                      {...register("content", { required: "内容は必須です" })}
+                    <input
+                      {...register("title", {
+                        required: "スレッド名は必須です",
+                      })}
                       className="text-xl w-full p-3 border rounded"
                     />
-                    <p>{errors.content?.message?.toString()}</p>
+                    <p>{errors.title?.message?.toString()}</p>
                   </div>
                   <button
                     type="submit"

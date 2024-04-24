@@ -57,7 +57,7 @@ export class Post {
   @IsInt()
   @IsNotEmpty()
   @Field(() => ID)
-  userId: number;
+  userId: string;
 }
 
 @ObjectType()

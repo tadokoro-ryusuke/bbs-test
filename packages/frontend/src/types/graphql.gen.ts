@@ -21,11 +21,20 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type CreateThreadInput = {
+  title: Scalars['String']['input'];
+};
+
+export type DeleteThreadInput = {
+  threadId: Scalars['ID']['input'];
+};
+
 export type FindThreadResponse = {
   __typename?: 'FindThreadResponse';
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
+  userId: Scalars['String']['output'];
 };
 
 export type FindThreadWithPostsInput = {
@@ -56,6 +65,28 @@ export type FindThreadsWithCountResponse = {
   threadsCount?: Maybe<Scalars['Float']['output']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createThread: Scalars['Boolean']['output'];
+  deleteThread: Scalars['Boolean']['output'];
+  signedIn: Scalars['Boolean']['output'];
+};
+
+
+export type MutationCreateThreadArgs = {
+  input: CreateThreadInput;
+};
+
+
+export type MutationDeleteThreadArgs = {
+  input: DeleteThreadInput;
+};
+
+
+export type MutationSignedInArgs = {
+  input: SignedInInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   content: Scalars['String']['output'];
@@ -69,7 +100,6 @@ export type Query = {
   __typename?: 'Query';
   findThreadWithPosts: FindThreadWithPostsResponse;
   threads: FindThreadsWithCountResponse;
-  user: Array<User>;
 };
 
 
@@ -82,11 +112,16 @@ export type QueryThreadsArgs = {
   input: FindThreadsInput;
 };
 
-export type User = {
-  __typename?: 'User';
-  /** Example field (placeholder) */
-  exampleField: Scalars['Int']['output'];
+export type SignedInInput = {
+  email: Scalars['String']['input'];
 };
+
+export type SignedInMutationVariables = Exact<{
+  input: SignedInInput;
+}>;
+
+
+export type SignedInMutation = { __typename?: 'Mutation', signedIn: boolean };
 
 export type FindThreadWithPostsQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -97,15 +132,38 @@ export type FindThreadWithPostsQueryVariables = Exact<{
 
 export type FindThreadWithPostsQuery = { __typename?: 'Query', findThreadWithPosts: { __typename?: 'FindThreadWithPostsResponse', id: string, title: string, createdAt: any, postsCount?: number | null, posts: Array<{ __typename?: 'Post', id: string, content: string, userId: string, createdAt: any }> } };
 
+export type CreateThreadMutationVariables = Exact<{
+  input: CreateThreadInput;
+}>;
+
+
+export type CreateThreadMutation = { __typename?: 'Mutation', createThread: boolean };
+
+export type DeleteThreadMutationVariables = Exact<{
+  input: DeleteThreadInput;
+}>;
+
+
+export type DeleteThreadMutation = { __typename?: 'Mutation', deleteThread: boolean };
+
 export type ThreadsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Float']['input']>;
   limit?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type ThreadsQuery = { __typename?: 'Query', threads: { __typename?: 'FindThreadsWithCountResponse', threadsCount?: number | null, threads: Array<{ __typename?: 'FindThreadResponse', id: string, title: string, createdAt: any }> } };
+export type ThreadsQuery = { __typename?: 'Query', threads: { __typename?: 'FindThreadsWithCountResponse', threadsCount?: number | null, threads: Array<{ __typename?: 'FindThreadResponse', id: string, title: string, createdAt: any, userId: string }> } };
 
 
+export const SignedInDocument = gql`
+    mutation SignedIn($input: SignedInInput!) {
+  signedIn(input: $input)
+}
+    `;
+
+export function useSignedInMutation() {
+  return Urql.useMutation<SignedInMutation, SignedInMutationVariables>(SignedInDocument);
+};
 export const FindThreadWithPostsDocument = gql`
     query FindThreadWithPosts($id: ID!, $page: Float, $limit: Float) {
   findThreadWithPosts(
@@ -128,6 +186,24 @@ export const FindThreadWithPostsDocument = gql`
 export function useFindThreadWithPostsQuery(options: Omit<Urql.UseQueryArgs<FindThreadWithPostsQueryVariables>, 'query'>) {
   return Urql.useQuery<FindThreadWithPostsQuery, FindThreadWithPostsQueryVariables>({ query: FindThreadWithPostsDocument, ...options });
 };
+export const CreateThreadDocument = gql`
+    mutation CreateThread($input: CreateThreadInput!) {
+  createThread(input: $input)
+}
+    `;
+
+export function useCreateThreadMutation() {
+  return Urql.useMutation<CreateThreadMutation, CreateThreadMutationVariables>(CreateThreadDocument);
+};
+export const DeleteThreadDocument = gql`
+    mutation DeleteThread($input: DeleteThreadInput!) {
+  deleteThread(input: $input)
+}
+    `;
+
+export function useDeleteThreadMutation() {
+  return Urql.useMutation<DeleteThreadMutation, DeleteThreadMutationVariables>(DeleteThreadDocument);
+};
 export const ThreadsDocument = gql`
     query Threads($page: Float, $limit: Float) {
   threads(input: {page: $page, limit: $limit, includeTotals: true}) {
@@ -135,6 +211,7 @@ export const ThreadsDocument = gql`
       id
       title
       createdAt
+      userId
     }
     threadsCount
   }
@@ -216,7 +293,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateThreadInput: CreateThreadInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  DeleteThreadInput: DeleteThreadInput;
   FindThreadResponse: ResolverTypeWrapper<FindThreadResponse>;
   FindThreadWithPostsInput: FindThreadWithPostsInput;
   FindThreadWithPostsResponse: ResolverTypeWrapper<FindThreadWithPostsResponse>;
@@ -224,17 +303,19 @@ export type ResolversTypes = {
   FindThreadsWithCountResponse: ResolverTypeWrapper<FindThreadsWithCountResponse>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   Query: ResolverTypeWrapper<{}>;
+  SignedInInput: SignedInInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CreateThreadInput: CreateThreadInput;
   DateTime: Scalars['DateTime']['output'];
+  DeleteThreadInput: DeleteThreadInput;
   FindThreadResponse: FindThreadResponse;
   FindThreadWithPostsInput: FindThreadWithPostsInput;
   FindThreadWithPostsResponse: FindThreadWithPostsResponse;
@@ -242,11 +323,11 @@ export type ResolversParentTypes = {
   FindThreadsWithCountResponse: FindThreadsWithCountResponse;
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
-  Int: Scalars['Int']['output'];
+  Mutation: {};
   Post: Post;
   Query: {};
+  SignedInInput: SignedInInput;
   String: Scalars['String']['output'];
-  User: User;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -257,6 +338,7 @@ export type FindThreadResponseResolvers<ContextType = any, ParentType extends Re
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -275,6 +357,12 @@ export type FindThreadsWithCountResponseResolvers<ContextType = any, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createThread?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateThreadArgs, 'input'>>;
+  deleteThread?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteThreadArgs, 'input'>>;
+  signedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSignedInArgs, 'input'>>;
+};
+
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -287,12 +375,6 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   findThreadWithPosts?: Resolver<ResolversTypes['FindThreadWithPostsResponse'], ParentType, ContextType, RequireFields<QueryFindThreadWithPostsArgs, 'input'>>;
   threads?: Resolver<ResolversTypes['FindThreadsWithCountResponse'], ParentType, ContextType, RequireFields<QueryThreadsArgs, 'input'>>;
-  user?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-};
-
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -300,8 +382,8 @@ export type Resolvers<ContextType = any> = {
   FindThreadResponse?: FindThreadResponseResolvers<ContextType>;
   FindThreadWithPostsResponse?: FindThreadWithPostsResponseResolvers<ContextType>;
   FindThreadsWithCountResponse?: FindThreadsWithCountResponseResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 };
 

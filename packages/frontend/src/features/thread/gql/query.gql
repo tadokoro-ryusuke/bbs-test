@@ -4,6 +4,7 @@ query Threads($page: Float, $limit: Float) {
       id
       title
       createdAt
+      userId
     }
     threadsCount
   }

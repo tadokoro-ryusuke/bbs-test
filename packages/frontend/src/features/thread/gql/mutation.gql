@@ -1,0 +1,3 @@
+mutation DeleteThread($input: DeleteThreadInput!) {
+  deleteThread(input: $input)
+}

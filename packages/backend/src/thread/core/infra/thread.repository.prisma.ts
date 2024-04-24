@@ -24,9 +24,37 @@ export class ThreadRepository implements IThreadRepository {
     return thread;
   }
 
+  async findOneByIdAndUserId(id: number, userId: string): Promise<Thread | null> {
+    const thread = await this.prismaService.thread.findUnique({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    return thread;
+  }
+
   async count(): Promise<number> {
     const totalThreads = await this.prismaService.thread.count();
 
     return totalThreads;
+  }
+
+  async create(data: {title: string; userId: string}): Promise<Thread> {
+    const thread = await this.prismaService.thread.create({
+      data,
+    });
+
+    return thread;
+  }
+
+  async delete(id: number, userId: string): Promise<void> {
+    await this.prismaService.thread.delete({
+      where: {
+        id,
+        userId,
+      },
+    });
   }
 }

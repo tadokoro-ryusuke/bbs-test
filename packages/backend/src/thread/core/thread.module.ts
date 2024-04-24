@@ -1,5 +1,6 @@
 import {Module} from '@nestjs/common';
 
+import {FirebaseModule} from '@/firebase/firebase.module';
 import {PrismaModule} from '@/prisma/prisma.module';
 import {ThreadResolver} from '@/thread/core/application/thread.resolver';
 import {ThreadUseCaseService} from '@/thread/core/application/thread.usecase.service';
@@ -8,7 +9,7 @@ import {ThreadRepository} from '@/thread/core/infra/thread.repository.prisma';
 import {PostIndexModule} from '@/thread/post/post.index.module';
 
 @Module({
-  imports: [PrismaModule, PostIndexModule],
+  imports: [PrismaModule, PostIndexModule, FirebaseModule],
   providers: [ThreadResolver, ThreadUseCaseService, ThreadService, ThreadRepository],
 })
 export class ThreadModule {}

@@ -11,6 +11,7 @@
       "cache": false
     },
     "format": {},
+    "test": {},
     "type-check": {},
     "dev": {}
   }

@@ -27,7 +27,30 @@ export class ThreadService {
     return thread;
   }
 
+  async findOneByIdAndUserId(id: number, userId: string) {
+    const thread = await this.threadRepository.findOneByIdAndUserId(id, userId);
+
+    if (!thread) {
+      throw new Error('Thread not found');
+    }
+
+    return thread;
+  }
+
   async count() {
     return this.threadRepository.count();
+  }
+
+  async create({title, userId}: {title: string; userId: string}) {
+    return this.threadRepository.create({
+      title,
+      userId,
+    });
+  }
+
+  async delete({id, userId}: {id: number; userId: string}) {
+    const thread = await this.findOneByIdAndUserId(id, userId);
+
+    await this.threadRepository.delete(thread.id, userId);
   }
 }
