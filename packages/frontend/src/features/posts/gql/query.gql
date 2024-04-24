@@ -1,0 +1,16 @@
+query FindThreadWithPosts($id: ID!, $page: Float, $limit: Float) {
+  findThreadWithPosts(
+    input: { threadId: $id, page: $page, limit: $limit, includeTotals: true }
+  ) {
+    id
+    title
+    createdAt
+    posts {
+      id
+      content
+      userId
+      createdAt
+    }
+    postsCount
+  }
+}

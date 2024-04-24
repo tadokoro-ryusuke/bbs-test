@@ -1,0 +1,19 @@
+{
+  "extends": "@packages/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "noEmit": false,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

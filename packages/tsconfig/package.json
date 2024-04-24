@@ -1,0 +1,13 @@
+{
+  "name": "@packages/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "tsconfig.nextjs.json",
+    "tsconfig.base.json",
+    "tsconfig.react-library.json.json"
+  ],
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

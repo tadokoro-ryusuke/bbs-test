@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  db:
+    container_name: db
+    image: postgres:16
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: development
+  firebase:
+    build:
+      context: .
+      dockerfile: ./packages/firebase/Dockerfile
+    ports:
+      - 9099:9099
+      - 4000:4000
+    volumes:
+      - ./packages/firebase/.firebaserc:/firebase/.firebaserc
+      - ./packages/firebase/firebase.json:/firebase/firebase.json
+    tty: true
+    working_dir: /firebase
+    command: firebase emulators:start
+
+volumes:
+  db_data:

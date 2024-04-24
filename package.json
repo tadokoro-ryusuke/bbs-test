@@ -1,0 +1,19 @@
+{
+  "name": "bbs-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev",
+    "lint": "turbo run lint --parallel --continue",
+    "format": "turbo run format",
+    "codegen": "turbo run codegen",
+    "test": "turbo run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "turbo": "^1.13.2"
+  }
+}

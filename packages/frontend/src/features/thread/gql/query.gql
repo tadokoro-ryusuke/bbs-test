@@ -1,0 +1,10 @@
+query Threads($page: Float, $limit: Float) {
+  threads(input: { page: $page, limit: $limit, includeTotals: true }) {
+    threads {
+      id
+      title
+      createdAt
+    }
+    threadsCount
+  }
+}

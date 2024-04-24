@@ -1,0 +1,59 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type FindThreadResponse {
+  createdAt: DateTime!
+  id: ID!
+  title: String!
+}
+
+input FindThreadWithPostsInput {
+  includeTotals: Boolean = false
+  limit: Float = 10
+  page: Float = 1
+  threadId: ID!
+}
+
+type FindThreadWithPostsResponse {
+  createdAt: DateTime!
+  id: ID!
+  posts: [Post!]!
+  postsCount: Float
+  title: String!
+}
+
+input FindThreadsInput {
+  includeTotals: Boolean = false
+  limit: Float = 10
+  page: Float = 1
+}
+
+type FindThreadsWithCountResponse {
+  threads: [FindThreadResponse!]!
+  threadsCount: Float
+}
+
+type Post {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  threadId: ID!
+  userId: ID!
+}
+
+type Query {
+  findThreadWithPosts(input: FindThreadWithPostsInput!): FindThreadWithPostsResponse!
+  threads(input: FindThreadsInput!): FindThreadsWithCountResponse!
+  user: [User!]!
+}
+
+type User {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
