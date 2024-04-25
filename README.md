@@ -24,6 +24,10 @@
   - class-transfomer
   - jest
 
+- DB
+
+  - PostgreSQL16
+
 - ORM
 
   - Prisma
@@ -44,6 +48,7 @@
 ### URL
 
 frontend: http://localhost:3000
+
 firebase emulator: http://localhost:4000
 
 ## パッケージのインストール
@@ -95,3 +100,12 @@ firebase emulator: http://localhost:4000
    ![alt text](./images/image-2.png)
 
 ## 以上
+
+### できていないこと
+
+- 全文検索
+- フロントエンドのテスト
+
+### やっておきたいこと
+
+- バックエンドのエラー戦略
