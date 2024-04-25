@@ -1,5 +1,21 @@
 # bbs-test
 
+- [bbs-test](#bbs-test)
+  - [技術構成](#技術構成)
+- [使い方](#使い方)
+  - [URL](#url)
+  - [パッケージのインストール](#パッケージのインストール)
+  - [コンテナの立ち上げ](#コンテナの立ち上げ)
+  - [pnpm prisma generate](#pnpm-prisma-generate)
+  - [DB Migrate](#db-migrate)
+  - [DB seed](#db-seed)
+  - [開発環境起動](#開発環境起動)
+  - [ユーザー情報登録(手動 :bow:)](#ユーザー情報登録手動-bow)
+  - [テスト](#テスト)
+  - [以上](#以上)
+    - [できていないこと](#できていないこと)
+    - [やっておきたいこと](#やっておきたいこと)
+
 ## 技術構成
 
 - 言語
@@ -98,6 +114,12 @@ firebase emulator: http://localhost:4000
    ![alt text](./images/image-1.png)
 4. Email, Password を入力して Save
    ![alt text](./images/image-2.png)
+
+## テスト
+
+```shell
+> pnpm test
+```
 
 ## 以上
 
