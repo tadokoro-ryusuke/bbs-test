@@ -4,11 +4,12 @@ import { Suspense } from "react";
 
 import { Loading } from "@/components/loading/Loading";
 import { BaseLayout } from "@/layouts/BaseLayout";
+
 import { UserProvider } from "@/providers/UserProvider";
 
 import type { AppProps } from "next/app";
-const App = ({ Component, pageProps }: AppProps) => {
-  return (
+
+const App = ({ Component, pageProps }: AppProps) => (
     <UserProvider>
       <Suspense fallback={<Loading isLoading />}>
         <BaseLayout>
@@ -17,6 +18,5 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Suspense>
     </UserProvider>
   );
-};
 
 export default App;

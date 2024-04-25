@@ -1,7 +1,9 @@
-import { useRouter } from "next/router";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { memo } from "react";
 
 import { Button } from "@/components/button/Button";
+
 import { useAuth } from "@/providers/UserProvider";
 import { formatDate } from "@/utils/date";
 

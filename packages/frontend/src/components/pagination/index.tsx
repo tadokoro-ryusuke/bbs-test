@@ -12,7 +12,6 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
   const { startPage, endPage, pages } = usePagination({
     page,
     total: count,
-    onPageChange,
   });
 
   return (
@@ -20,10 +19,11 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
       <ul className="inline-flex -space-x-px text-sm">
         <li>
           <button
+            type="button"
             onClick={() => onPageChange(page - 1)}
             disabled={page === 1}
             className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
-              page === 1 && "opacity-50 cursor-not-allowed"
+              page === 1 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             Previous
@@ -33,6 +33,7 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
           <>
             <li>
               <button
+                type="button"
                 onClick={() => onPageChange(1)}
                 className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
@@ -49,6 +50,7 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
         {pages.map((p) => (
           <li key={p}>
             <button
+              type="button"
               onClick={() => onPageChange(p)}
               aria-current={page === p ? "page" : undefined}
               className={`flex items-center justify-center px-3 h-8 leading-tight ${
@@ -70,6 +72,7 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
             </li>
             <li>
               <button
+                type="button"
                 onClick={() => onPageChange(count)}
                 className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
@@ -80,10 +83,11 @@ export const Pagination = memo<Props>(({ count, page, onPageChange }) => {
         )}
         <li>
           <button
+            type="button"
             onClick={() => onPageChange(page + 1)}
             disabled={page === count}
             className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
-              page === count && "opacity-50 cursor-not-allowed"
+              page === count ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             Next

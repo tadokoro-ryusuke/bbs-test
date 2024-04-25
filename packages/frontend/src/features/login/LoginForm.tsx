@@ -1,6 +1,5 @@
-import { register } from "module";
 import { memo } from "react";
-import { SubmitHandler, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 type Props = {
   onSubmit: () => void;

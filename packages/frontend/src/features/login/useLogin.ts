@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -6,7 +7,6 @@ import { z } from "zod";
 import { signIn } from "@/lib/auth";
 import { useAuth } from "@/providers/UserProvider";
 import { useSignedInMutation } from "@/types/graphql.gen";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = {
   email: string;
@@ -37,8 +37,8 @@ export const useLogin = () => {
     try {
       setIsLoading(true);
       await signIn(data.email, data.password);
-      if (!!redirect) {
-        router.push(redirect.toString());
+      if (redirect) {
+        await router.push(redirect.toString());
       }
     } catch {
       setLoginErrorMessage("ログインに失敗しました");
@@ -49,13 +49,14 @@ export const useLogin = () => {
 
   useEffect(() => {
     if (user?.uid) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       executeMutation({
         input: {
           email: user.email ?? "logged in",
         },
       });
     }
-  }, [user]);
+  }, [executeMutation, user]);
 
   return {
     formMethods,

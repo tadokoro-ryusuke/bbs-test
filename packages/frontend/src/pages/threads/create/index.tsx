@@ -1,7 +1,5 @@
 import { ThreadCreate } from "@/features/thread/create";
 
-const ThreadCreatePage = () => {
-  return <ThreadCreate />;
-};
+const ThreadCreatePage = () => <ThreadCreate />;
 
 export default ThreadCreatePage;

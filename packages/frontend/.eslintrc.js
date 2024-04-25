@@ -1,9 +1,9 @@
 module.exports = {
-  extends: ['@packages/eslint-config/nextjs.js', 'plugin:storybook/recommended'],
+  extends: ["@packages/eslint-config/nextjs.js"],
   parserOptions: {
-    project: ['./tsconfig.eslint.json'],
-    sourceType: 'module',
+    project: ["./tsconfig.eslint.json"],
+    sourceType: "module",
     tsconfigRootDir: __dirname,
-    ecmaFeatures: {jsx: true},
+    ecmaFeatures: { jsx: true },
   },
 };

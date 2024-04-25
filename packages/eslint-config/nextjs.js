@@ -1,19 +1,49 @@
-const react = require('./react-ui');
+const base = require('./base.js');
 
 module.exports = {
-  ...react,
+  ...base,
 
+  plugins: [...base.plugins, 'jsx-a11y', 'react', 'react-hooks', 'jest'],
+  extends: [
+    ...base.extends,
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'next',
+    'next/core-web-vitals',
+  ],
+  settings: {
+    ...base.settings,
+
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+  },
   env: {
-    ...react.env,
-
     'jest/globals': true,
   },
-
-  plugins: [...react.plugins, 'jest'],
-  extends: [...react.extends, 'next', 'next/core-web-vitals'],
   rules: {
-    ...react.rules,
+    ...base.rules,
 
+    'react/display-name': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': ['off'],
+    'import/extensions': [
+      'error',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+        gen: 'always',
+      },
+    ],
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/require-await': 'off',
     'import/order': [
       'error',
       {
@@ -30,7 +60,7 @@ module.exports = {
         alphabetize: {order: 'asc', caseInsensitive: true},
         pathGroups: [
           {
-            pattern: '{@/components/**,@/pages/**}',
+            pattern: '{@/components/**,@/pages/**,@/features/**,@/layouts/**}',
             group: 'internal',
             position: 'before',
           },
@@ -41,21 +71,12 @@ module.exports = {
         ],
       },
     ],
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
-        devDependencies: ['**/*.stories.*', '**/.storybook/**/*.*'],
-        peerDependencies: true,
-      },
-    ],
   },
   overrides: [
-    // Next.js needs default exports for pages and API points
     {
-      files: ['*/pages/**/*'],
+      files: ['*.stories.tsx'],
       rules: {
         'import/no-default-export': 'off',
-        'import/prefer-default-export': 'error',
       },
     },
   ],

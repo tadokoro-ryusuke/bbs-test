@@ -21,7 +21,6 @@
     "prettier": "^2.7.1"
   },
   "files": [
-    "react-ui.js",
     "nextjs.js",
     "node.js",
     "base.js",

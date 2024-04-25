@@ -1,4 +1,4 @@
-import { memo, use } from "react";
+import { memo } from "react";
 
 import { List } from "@/components/list/List";
 import { Pagination } from "@/components/pagination";
@@ -28,8 +28,7 @@ export const ThreadList = memo<Props>(
     pagination,
     handleClickThread,
     handleDeleteThread,
-  }) => {
-    return (
+  }) => (
       <>
         <List isLoading={fetching}>
           {threads.map((thread) => (
@@ -50,6 +49,5 @@ export const ThreadList = memo<Props>(
           onPageChange={pagination.handleChangePage}
         />
       </>
-    );
-  }
+    )
 );

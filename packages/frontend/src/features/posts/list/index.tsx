@@ -19,8 +19,7 @@ type Props = {
   fetching: boolean;
 };
 
-export const PostList = memo<Props>(({ posts, pagination, fetching }) => {
-  return (
+export const PostList = memo<Props>(({ posts, pagination, fetching }) => (
     <>
       <List isLoading={fetching}>
         {posts.map((post) => (
@@ -39,5 +38,4 @@ export const PostList = memo<Props>(({ posts, pagination, fetching }) => {
         onPageChange={pagination.handleChangePage}
       />
     </>
-  );
-});
+  ));

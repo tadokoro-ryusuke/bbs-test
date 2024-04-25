@@ -5,7 +5,7 @@ import { useDeleteThreadMutation, useThreadsQuery } from "@/types/graphql.gen";
 
 export const useThreads = () => {
   const router = useRouter();
-  const [page, usePage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const [{ data, fetching }, executeQuery] = useThreadsQuery({
     variables: {
@@ -19,12 +19,12 @@ export const useThreads = () => {
   const total = data?.threads.threadsCount ?? 0;
 
   const threadList = useMemo(() => {
-    const handleClickThread = (threadId: string) => {
-      router.push(`/threads/${threadId}`);
+    const handleClickThread = async (threadId: string) => {
+      await router.push(`/threads/${threadId}`);
     };
 
-    const handleChangePage = (page: number) => {
-      usePage(page);
+    const handleChangePage = (pageNum: number) => {
+      setPage(pageNum);
       executeQuery();
     };
 
@@ -34,7 +34,7 @@ export const useThreads = () => {
           threadId,
         },
       });
-      await executeQuery();
+      executeQuery();
     };
 
     return {
@@ -53,11 +53,19 @@ export const useThreads = () => {
       fetching,
       handleClickThread,
     };
-  }, [router, threads, fetching, total, page]);
+  }, [
+    threads,
+    total,
+    page,
+    fetching,
+    router,
+    executeQuery,
+    executeDeleteThread,
+  ]);
 
   const createThread = useMemo(() => {
-    const handleClickCreateThread = () => {
-      router.push("/threads/create");
+    const handleClickCreateThread = async () => {
+      await router.push("/threads/create");
     };
 
     return {

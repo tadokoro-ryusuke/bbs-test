@@ -1,7 +1,6 @@
 import { memo, PropsWithChildren } from "react";
 
 import { Loading } from "@/components/loading/Loading";
-import { Pagination } from "@/components/pagination";
 
 type Props = {
   isLoading: boolean;

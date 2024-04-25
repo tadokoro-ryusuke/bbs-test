@@ -1,11 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { logout } from "@/lib/auth";
 import { useCreateThreadMutation } from "@/types/graphql.gen";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = {
   title: string;
@@ -34,7 +33,7 @@ export const useThreadCreate = () => {
           title: data.title,
         },
       });
-      router.push("/threads");
+      await router.push("/threads");
     } catch {
       setCreateErrorMessage("スレッドの作成に失敗しました");
     } finally {

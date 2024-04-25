@@ -1,7 +1,5 @@
 import { Login } from "@/features/login";
 
-const LoginPage = () => {
-  return <Login />;
-};
+const LoginPage = () => <Login />;
 
 export default LoginPage;

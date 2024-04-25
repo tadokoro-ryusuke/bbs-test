@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useFindThreadWithPostsQuery } from "@/types/graphql.gen";
 
 export const usePosts = (threadId: string) => {
-  const [page, usePage] = useState(1);
+  const [page, setPage] = useState(1);
   const [{ data, fetching }, executeQuery] = useFindThreadWithPostsQuery({
     variables: {
       id: threadId,
@@ -11,12 +11,13 @@ export const usePosts = (threadId: string) => {
     },
     requestPolicy: "network-only",
   });
-  const posts = data?.findThreadWithPosts.posts ?? [];
   const total = data?.findThreadWithPosts.postsCount ?? 0;
 
   const postList = useMemo(() => {
-    const handleChangePage = (page: number) => {
-      usePage(page);
+    const posts = data?.findThreadWithPosts.posts ?? [];
+
+    const handleChangePage = (pageNum: number) => {
+      setPage(pageNum);
       executeQuery();
     };
 
@@ -34,7 +35,7 @@ export const usePosts = (threadId: string) => {
       },
       fetching,
     };
-  }, [posts, fetching]);
+  }, [data?.findThreadWithPosts.posts, total, page, fetching, executeQuery]);
 
   return { postList };
 };

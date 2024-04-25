@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
 
-export const BaseLayout = ({ children }: PropsWithChildren) => {
-  return (
+export const BaseLayout = ({ children }: PropsWithChildren) => (
     <div className="flex justify-center">
       <div className="w-[1024px]">
         <header className="h-[60px] flex items-center justify-center">
@@ -11,4 +10,3 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
       </div>
     </div>
   );
-};
