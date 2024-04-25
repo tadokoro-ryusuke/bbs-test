@@ -1,0 +1,7 @@
+mutation AddPost($input: CreatePostInput!) {
+  addPostToThread(input: $input)
+}
+
+mutation DeletePost($input: DeletePostInput!) {
+  deletePost(input: $input)
+}

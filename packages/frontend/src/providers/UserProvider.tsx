@@ -39,8 +39,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
-      if (user) {
-        const idToken = await user.getIdToken();
+      if (u) {
+        const idToken = await u.getIdToken();
         setToken(idToken);
         setUser(u);
       } else {

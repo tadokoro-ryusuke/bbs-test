@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreatePostInput {
+  content: String!
+  threadId: ID!
+}
+
 input CreateThreadInput {
   title: String!
 }
@@ -11,7 +16,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeletePostInput {
+  postId: ID!
+  threadId: ID!
+}
+
 input DeleteThreadInput {
+  threadId: ID!
+}
+
+input EditPostInput {
+  content: String!
+  postId: ID!
+  threadId: ID!
+}
+
+input FindOnePostInput {
+  postId: ID!
   threadId: ID!
 }
 
@@ -32,7 +53,7 @@ input FindThreadWithPostsInput {
 type FindThreadWithPostsResponse {
   createdAt: DateTime!
   id: ID!
-  posts: [Post!]!
+  posts: [PostResponse!]!
   postsCount: Float
   title: String!
 }
@@ -49,12 +70,23 @@ type FindThreadsWithCountResponse {
 }
 
 type Mutation {
+  addPostToThread(input: CreatePostInput!): Boolean!
   createThread(input: CreateThreadInput!): Boolean!
+  deletePost(input: DeletePostInput!): Boolean!
   deleteThread(input: DeleteThreadInput!): Boolean!
+  editPost(input: EditPostInput!): Post!
   signedIn(input: SignedInInput!): Boolean!
 }
 
 type Post {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  thread: Thread!
+  userId: String!
+}
+
+type PostResponse {
   content: String!
   createdAt: DateTime!
   id: ID!
@@ -63,10 +95,18 @@ type Post {
 }
 
 type Query {
+  findOnePost(input: FindOnePostInput!): Post!
   findThreadWithPosts(input: FindThreadWithPostsInput!): FindThreadWithPostsResponse!
   threads(input: FindThreadsInput!): FindThreadsWithCountResponse!
 }
 
 input SignedInInput {
   email: String!
+}
+
+type Thread {
+  createdAt: DateTime!
+  id: ID!
+  title: String!
+  userId: String!
 }

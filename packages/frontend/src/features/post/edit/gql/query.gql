@@ -1,0 +1,6 @@
+query FindOnePost($postId: ID!, $threadId: ID!) {
+  findOnePost(input: { postId: $postId, threadId: $threadId }) {
+    id
+    content
+  }
+}

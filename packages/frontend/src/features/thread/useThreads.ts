@@ -15,7 +15,7 @@ export const useThreads = () => {
   });
   const [, executeDeleteThread] = useDeleteThreadMutation();
 
-  const threads = data?.threads.threads ?? [];
+  const threads = useMemo(() => data?.threads.threads ?? [], [data]);
   const total = data?.threads.threadsCount ?? 0;
 
   const threadList = useMemo(() => {
@@ -41,7 +41,7 @@ export const useThreads = () => {
       threads: threads.map((thread) => ({
         id: thread.id,
         title: thread.title,
-        createdAt: new Date(thread.createdAt),
+        createdAt: new Date(thread.createdAt as string),
         userId: thread.userId,
       })),
       pagination: {

@@ -7,6 +7,24 @@ import {Pagination} from '@/types/pagination';
 export class PostUseCaseService {
   constructor(private readonly postDomainService: PostService) {}
 
+  async findOnePost({
+    threadId,
+    postId,
+    userId,
+  }: {
+    threadId: number;
+    postId: number;
+    userId: string;
+  }) {
+    const post = await this.postDomainService.findOnePostByUserId({threadId, postId, userId});
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    return post;
+  }
+
   async deletePostsByThreadId(threadId: number) {
     return this.postDomainService.deletePostsByThreadId(threadId);
   }
@@ -17,5 +35,35 @@ export class PostUseCaseService {
 
   async countByThreadId(threadId: number) {
     return this.postDomainService.countByThreadId(threadId);
+  }
+
+  async addPost({threadId, userId, content}: {threadId: number; userId: string; content: string}) {
+    return this.postDomainService.create({threadId, userId, content});
+  }
+
+  async editPost({
+    threadId,
+    postId,
+    userId,
+    content,
+  }: {
+    threadId: number;
+    postId: number;
+    userId: string;
+    content: string;
+  }) {
+    return this.postDomainService.update({threadId, postId, userId, content});
+  }
+
+  async deletePostById({
+    threadId,
+    postId,
+    userId,
+  }: {
+    threadId: number;
+    postId: number;
+    userId: string;
+  }) {
+    return this.postDomainService.deletePostById({threadId, postId, userId});
   }
 }

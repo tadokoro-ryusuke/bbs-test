@@ -3,8 +3,12 @@ import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 
 import {UserId} from '@/auth/auth.decorator';
 import {AuthGuard} from '@/auth/auth.guard';
+import {CreatePostInput} from '@/thread/core/application/dto/add-post-to-thread.dto';
 import {CreateThreadInput} from '@/thread/core/application/dto/create-thread.dto';
+import {DeletePostInput} from '@/thread/core/application/dto/delete-post.dto';
 import {DeleteThreadInput} from '@/thread/core/application/dto/delete-thread.dto';
+import {EditPostInput} from '@/thread/core/application/dto/edit-post';
+import {FindOnePostInput} from '@/thread/core/application/dto/find-one-post';
 import {
   FindThreadWithPostsInput,
   FindThreadWithPostsResponse,
@@ -15,6 +19,7 @@ import {
   FindThreadsWithCountResponse,
 } from '@/thread/core/application/dto/find-threads.dto';
 import {ThreadUseCaseService} from '@/thread/core/application/thread.usecase.service';
+import {Post} from '@/thread/post/core/domain/post.entity';
 
 @Resolver()
 export class ThreadResolver {
@@ -56,5 +61,49 @@ export class ThreadResolver {
     }
 
     return true;
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Boolean)
+  async addPostToThread(@Args('input') input: CreatePostInput, @UserId() userId: string) {
+    const createdPost = await this.threadService.addPostToThread({
+      ...input,
+      userId,
+    });
+
+    if (!createdPost) {
+      throw new Error('Post not created');
+    }
+
+    return true;
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Boolean)
+  async deletePost(@Args('input') input: DeletePostInput, @UserId() userId: string) {
+    await this.threadService.deletePost({
+      ...input,
+      userId,
+    });
+
+    return true;
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => Post)
+  async findOnePost(@Args('input') input: FindOnePostInput, @UserId() userId: string) {
+    return this.threadService.findOnePost({
+      ...input,
+      userId,
+    });
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Post)
+  async editPost(@Args('input') input: EditPostInput, @UserId() userId: string) {
+    return this.threadService.editPost({
+      ...input,
+      userId,
+    });
   }
 }

@@ -35,6 +35,36 @@ export class ThreadUseCaseService {
     });
   }
 
+  async findOnePost({
+    threadId,
+    postId,
+    userId,
+  }: {
+    threadId: number;
+    postId: number;
+    userId: string;
+  }) {
+    const thread = await this.threadDomainService.findOne(threadId);
+
+    return this.postService.findOnePost({threadId: thread.id, postId, userId});
+  }
+
+  async editPost({
+    threadId,
+    postId,
+    userId,
+    content,
+  }: {
+    threadId: number;
+    postId: number;
+    userId: string;
+    content: string;
+  }) {
+    const thread = await this.threadDomainService.findOne(threadId);
+
+    return this.postService.editPost({threadId: thread.id, postId, userId, content});
+  }
+
   async findThreadWithPosts({threadId, page, limit, includeTotals}: FindThreadWithPostsInput) {
     const thread = await this.threadDomainService.findOne(threadId);
 
@@ -68,5 +98,25 @@ export class ThreadUseCaseService {
     await this.threadDomainService.delete({id: thread.id, userId});
 
     return true;
+  }
+
+  async addPostToThread({
+    threadId,
+    userId,
+    content,
+  }: {
+    threadId: number;
+    userId: string;
+    content: string;
+  }) {
+    const thread = await this.threadDomainService.findOne(threadId);
+
+    return this.postService.addPost({threadId: thread.id, userId, content});
+  }
+
+  async deletePost({threadId, postId, userId}: {threadId: number; postId: number; userId: string}) {
+    const thread = await this.threadDomainService.findOne(threadId);
+
+    return this.postService.deletePostById({threadId: thread.id, postId, userId});
   }
 }

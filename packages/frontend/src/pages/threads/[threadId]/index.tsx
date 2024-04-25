@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
 import { Loading } from "@/components/loading/Loading";
-import { Posts } from "@/features/posts";
+import { Posts } from "@/features/post";
 
 const PostsPage = () => {
   const router = useRouter();

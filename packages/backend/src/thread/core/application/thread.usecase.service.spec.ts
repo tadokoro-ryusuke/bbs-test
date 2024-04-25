@@ -1,6 +1,7 @@
 import {Test, TestingModule} from '@nestjs/testing';
 
 import {PrismaModule} from '@/prisma/prisma.module';
+import {PrismaService} from '@/prisma/prisma.service';
 import {ThreadService} from '@/thread/core/domain/thread.domain.service';
 import {ThreadModule} from '@/thread/core/thread.module';
 import {PostUseCaseService} from '@/thread/post/core/application/post.usecase.service';
@@ -12,6 +13,7 @@ describe('ThreadUseCaseService', () => {
   let service: ThreadUseCaseService;
   let threadService: ThreadService;
   let postService: PostUseCaseService;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,6 +23,7 @@ describe('ThreadUseCaseService', () => {
     service = module.get<ThreadUseCaseService>(ThreadUseCaseService);
     threadService = module.get<ThreadService>(ThreadService);
     postService = module.get<PostUseCaseService>(PostUseCaseService);
+    prisma = module.get<PrismaService>(PrismaService);
   });
 
   it('should be defined', () => {
@@ -122,6 +125,34 @@ describe('ThreadUseCaseService', () => {
       expect(threadService.findOneByIdAndUserId).toHaveBeenCalledWith(1, 'user123');
       expect(postService.deletePostsByThreadId).toHaveBeenCalledWith(1);
       expect(threadService.delete).toHaveBeenCalledWith({id: 1, userId: 'user123'});
+    });
+  });
+
+  describe('addPostToThread', () => {
+    it('ポストの追加', async () => {
+      const postDetails = {
+        threadId: 1,
+        content: 'Sample Post',
+        userId: 'user123',
+      };
+      const expectedPost = {
+        id: 1,
+        threadId: 1,
+        content: 'Sample Post',
+        createdAt: new Date(),
+        userId: 'user123',
+      };
+
+      jest.spyOn(service, 'addPostToThread').mockResolvedValue(expectedPost);
+
+      const result = await service.addPostToThread(postDetails);
+
+      expect(service.addPostToThread).toHaveBeenCalledWith(postDetails);
+      expect(result).toEqual(expectedPost);
+
+      const postCount = await prisma.post.count({where: {id: 1}});
+
+      expect(postCount).toBe(1);
     });
   });
 });

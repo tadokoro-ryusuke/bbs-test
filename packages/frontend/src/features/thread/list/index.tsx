@@ -29,25 +29,25 @@ export const ThreadList = memo<Props>(
     handleClickThread,
     handleDeleteThread,
   }) => (
-      <>
-        <List isLoading={fetching}>
-          {threads.map((thread) => (
-            <Thread
-              key={thread.id}
-              id={thread.id}
-              title={thread.title}
-              createdAt={thread.createdAt}
-              userId={thread.userId}
-              onClick={() => handleClickThread(thread.id)}
-              onDelete={() => handleDeleteThread(thread.id)}
-            />
-          ))}
-        </List>
-        <Pagination
-          page={pagination.page}
-          count={pagination.count}
-          onPageChange={pagination.handleChangePage}
-        />
-      </>
-    )
+    <>
+      <List isLoading={fetching}>
+        {threads.map((thread) => (
+          <Thread
+            key={thread.id}
+            id={thread.id}
+            title={thread.title}
+            createdAt={thread.createdAt}
+            userId={thread.userId}
+            onClick={() => handleClickThread(thread.id)}
+            onDelete={() => handleDeleteThread(thread.id)}
+          />
+        ))}
+      </List>
+      <Pagination
+        page={pagination.page}
+        count={pagination.count}
+        onPageChange={pagination.handleChangePage}
+      />
+    </>
+  )
 );

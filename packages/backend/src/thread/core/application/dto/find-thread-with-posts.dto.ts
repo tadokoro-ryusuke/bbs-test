@@ -33,7 +33,7 @@ export class FindThreadWithPostsInput {
 }
 
 @ObjectType()
-export class Post {
+export class PostResponse {
   @IsInt()
   @IsNotEmpty()
   @Field(() => ID)
@@ -79,9 +79,9 @@ export class FindThreadWithPostsResponse {
 
   @IsArray()
   @ValidateNested({each: true})
-  @Type(() => Post)
-  @Field(() => [Post])
-  posts: Post[];
+  @Type(() => PostResponse)
+  @Field(() => [PostResponse])
+  posts: PostResponse[];
 
   @IsInt()
   @IsOptional()
