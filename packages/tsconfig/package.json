@@ -6,8 +6,5 @@
     "tsconfig.nextjs.json",
     "tsconfig.base.json",
     "tsconfig.react-library.json.json"
-  ],
-  "volta": {
-    "extends": "../../package.json"
-  }
+  ]
 }

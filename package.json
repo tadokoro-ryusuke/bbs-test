@@ -8,7 +8,10 @@
     "lint": "turbo run lint --parallel --continue",
     "format": "turbo run format",
     "codegen": "turbo run codegen",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "prisma:generate": "pnpm -F backend prisma:generate",
+    "db:migrate": "pnpm -F backend prisma:migrate",
+    "db:seed": "pnpm -F backend prisma:seed"
   },
   "keywords": [],
   "author": "",

@@ -25,8 +25,5 @@
     "node.js",
     "base.js",
     ".prettierrc.js"
-  ],
-  "volta": {
-    "extends": "../../package.json"
-  }
+  ]
 }
